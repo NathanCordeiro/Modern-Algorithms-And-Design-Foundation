@@ -30,10 +30,10 @@ int main()
 {
     string sentence, pattern;
     cout << "Enter the string : ";
-    cin >> sentence;
+    getline(cin,sentence);
 
     cout << "Enter the pattern : ";
-    cin >> pattern;
+    getline(cin,pattern);
 
     vector<int> positions = match(sentence, pattern);
 
