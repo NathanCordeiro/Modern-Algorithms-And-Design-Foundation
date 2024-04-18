@@ -1,3 +1,4 @@
+//Implementation of Brute force pattern matching algorithm or naive pattern matching algorithm in c++
 #include <iostream>
 #include <vector>
 #include <string>
