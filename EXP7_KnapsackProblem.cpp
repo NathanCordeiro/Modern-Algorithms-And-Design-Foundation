@@ -1,56 +1,118 @@
 // 0/1 Knapsack problem using dynamic programming implemented in c++
 #include <iostream>
-#include <vector>
 #include <algorithm>
+#include <vector>
+
 using namespace std;
 
-void KNAPSACK(int n, int cap, vector<pair<int, int>>& items) {
-    vector<vector<int>> k(n + 1, vector<int>(cap + 1, 0));
+void knapsack(int n, int cap, int p[], int w[])
+{
 
-    // Build table k[][] in bottom up manner
-    for (int i = 0; i <= n; i++) {
-        for (int j = 0; j <= cap; j++) {
-            if (i == 0 || j == 0) {
+    int k[n+1][cap+1];
+
+    for(int i=0; i<=n; i++)
+    {
+        for(int j=0; j<=cap; j++)
+        {
+            if(i==0 || j==0)
                 k[i][j] = 0;
-            } else if (items[i].second <= j) {
-                k[i][j] = max(items[i].first + k[i-1][j-items[i].second], k[i-1][j]);
-            } else {
+            else if(j<w[i])
                 k[i][j] = k[i-1][j];
-            }
+            else
+                k[i][j] = max(k[i-1][j-w[i]] + p[i], k[i-1][j]);
         }
     }
 
-    // Display the maximum profit
-    cout << "Maximum profit is: " << k[n][cap] << endl;
+    // Displaying the item-weight table
 
-    // Trace the items included in the knapsack
+    cout << "\nItem-Weight Table:\n";
+    cout << "     ";
+
+    for (int j = 0; j <= cap; ++j)
+    {
+        cout << j << "    ";
+    }
+    cout << "\n";
+
+    for (int i = 0; i <= n; ++i)
+    {
+        cout << i << "    ";
+        for (int j = 0; j <= cap; ++j)
+        {
+            cout << k[i][j] << "    ";
+        }
+        cout << "\n";
+    }
+
+    // Solution vector
+
+    vector<int> solution;
+    vector<int> binaryVector(n + 1, 0); // Initialize binary vector with zeros
     int i = n, j = cap;
-    cout << "Items included in the knapsack:" << endl;
-    while (i > 0 && j > 0) {
-        if (k[i][j] != k[i-1][j]) {
-            cout << "Item " << i << " with weight " << items[i].second << " and profit " << items[i].first << endl;
-            j -= items[i].second;
-            i -= 1;
-        } else {
-            i -= 1;
+
+    while (i > 0 && j > 0)
+    {
+        if (k[i][j] != k[i - 1][j])
+        {
+            solution.push_back(i);
+            binaryVector[i] = 1; // Set corresponding item in binary vector to 1
+            j -= w[i];
+            i--;
+        }
+        else
+        {
+            i--;
         }
     }
+
+    // Displaying the solution vector
+
+    cout << "\nSolution Vector:\n";
+    cout << " [ ";
+
+    for (int i = solution.size() - 1; i >= 0; --i)
+    {
+        cout << solution[i] << " ";
+    }
+    cout << "]\n";
+
+
+    // Displaying the binary vector
+
+    cout << "Binary Vector:\n";
+    cout << " [ ";
+    for (int i = 1; i <= n; ++i)
+    {
+        cout << binaryVector[i] << " ";
+    }
+
+    cout << "]\n";
 }
 
-int main() {
-    int n, cap;
-    cout << "Enter number of items: ";
-    cin >> n;
-    cout << "Enter knapsack capacity: ";
-    cin >> cap;
-    vector<pair<int, int>> items(n + 1);
 
-    cout << "Enter profits and weights of items as (profit, weight):" << endl;
-    for (int i = 1; i <= n; i++) {
-        cin >> items[i].first >> items[i].second;
+int main()
+{
+
+    int n, cap;
+    cout<<"Enter the number of items: ";
+    cin>>n;
+    cout<<"Enter the capacity of the bag: ";
+    cin>>cap;
+
+    int p[n+1], w[n+1];
+
+    for(int i=1; i<=n; i++)
+    {
+        cout<<"Enter the weight and profit of item "<<i<<": \n";
+        cout<<"Weight: ";
+        cin>>w[i];
+        cout<<"Profit: ";
+        cin>>p[i];
+        cout<<endl;
     }
 
-    KNAPSACK(n, cap, items);
+    knapsack(n, cap, p, w);
 
     return 0;
+
 }
