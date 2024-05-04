@@ -1,3 +1,4 @@
+// Program to find a target value as a sum in subset
 #include <iostream>
 #include <vector>
 
