@@ -67,3 +67,29 @@ int main() {
     dijkstra(source, n, cost);
     return 0;
 }
+
+
+
+
+
+/// INCASE to_string() does not work in college systems
+/// `to_string()` is part of #include<string> but is only available for c++ 11 onwards
+/*
+#include <iostream>
+#include <sstream> // For std::ostringstream
+
+int main() {
+    int arr[] = {1, 2, 3, 4, 5}; // Example integer array
+    int size = sizeof(arr) / sizeof(arr[0]); // Get the size of the array
+    std::string str = "";
+
+    for (int i = 0; i < size; ++i) {
+        std::ostringstream oss;
+        oss << " -> " << arr[i]; // Concatenate "->" with the integer value
+        str = str + oss.str(); // Convert the stream to a string
+        std::cout << str << std::endl; // Output the result
+    }
+
+    return 0;
+}
+*/
